@@ -14,6 +14,11 @@
 // Adafruit_ST7789 tft2(TFT_CS, TFT_DC, TFT_RST);
 TFT_eSPI tft = TFT_eSPI();
 
+#if defined(TIME)
+//#include "screen_time.h"
+uint16_t* screenContent;
+#endif
+
 void tft_render(int x, int y, int w, int h, uint8_t *buf)
 {
     //tft.drawBitmap(x, y, (uint8_t *)buf, w, h, TFT_WHITE);
@@ -28,4 +33,12 @@ void tft_init()
     tft.setTextColor(TFT_GREEN);
 
     gen.onRender(tft_render);
+    #if defined(TIME)
+    // ========SAVE SCREEN
+//screenContent = NULL;
+//screenContent = (uint16_t*) malloc ((h * w)*2);
+//screenContent = (uint16_t*) malloc( ((w - x) + 2) * ((h - y) + 2) * 2 );
+//tft.readRect(x, y, w, h, screenContent);  
+    //tft.fillRect(timeX-1, timeY-1, textSize*6*5, textSize*8,TFT_BLACK);
+    #endif
 }

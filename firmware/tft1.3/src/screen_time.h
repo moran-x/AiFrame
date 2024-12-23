@@ -11,9 +11,10 @@ static time_t now;
 const char *headerkeys[] = {"Location"};
 
 /* variables */
-static int w, h, timeX, timeY, len, offset;
+static int w, h, timeX, timeY, minutes = 100, len, offset;
 static uint8_t textSize;
 static unsigned long next_show_millis = 0;
+
 
 #define NTP_SERVER "pool.ntp.org"
 #define TZ "HKT-7" //изменить на свою тайм зону
@@ -50,12 +51,21 @@ void printTime()
   int hour = tm->tm_hour;
   int min = tm->tm_min;
 
+  if (minutes > min)
+  {
+  minutes = min;
+  }
+
   //set text size with pixel margin
   //tft.setTextSize(TextSize, TextSize, 2);
   if (tft_render)
   {
     // print time with black background
-    //tft.pushRect(0, 0, w, h,(uint16_t*)screenContent, true);
+    //tft.pushRect(timeX, timeY-textSize*8, textSize*6*5, textSize*8,(uint16_t*)screenContent, true);
+    if (minutes < min){
+      tft.fillRect(timeX-1, timeY-1, textSize*6*5, textSize*8,TFT_BLACK);
+      minutes = min;
+      }
     tft.setCursor(timeX, timeY);
     tft.setTextColor(TFT_GREEN);
     tft.printf("%02d:%02d", hour, min);

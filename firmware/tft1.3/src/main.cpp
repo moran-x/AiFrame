@@ -6,6 +6,10 @@
 #include "settings.h"
 #include "tft.h"
 
+#if defined(TIME)
+    #include "screen_time.h"
+#endif 
+
 void setup() {
     Serial.begin(115200);
     Serial.println();
@@ -79,9 +83,39 @@ void setup() {
     Serial.println("Ready!");
 
     if (WiFi.status() == WL_CONNECTED) ota.checkUpdate();
+
+#if defined(TIME)
+// ======== TIME ========
+  w = tft.width();
+  h = tft.height();
+  textSize = w / 7 / 6; //размер высота
+  timeX = (w - (textSize * 5 * 6)) / 3;
+  timeY = h - (textSize * 8) - 10;
+  tft.println(w);
+  Serial.print(w);
+  tft.println('x');
+  Serial.print('x');
+  tft.println(h);
+  Serial.println(h);
+  tft.setTextColor(TFT_GREEN);
+  tft.print(F("Clock text size: "));
+  Serial.print(F("Clock text size: "));
+  tft.println(textSize);
+  Serial.println(textSize);
+    
+  ntpGetTime();
+// ======== TIME ========
+#endif               
+
 }
 
 void loop() {
     sett_tick();
     gen_tick();
+    #if defined(TIME)
+// ======== TIME ========
+    tft.setTextSize(textSize);
+    printTime(); 
+// ======== TIME ======== 
+    #endif
 }
