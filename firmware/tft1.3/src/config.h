@@ -5,4 +5,4 @@
 #define DISP_HEIGHT 240
 #define DISP_SCALE 2    // 1, 2, 4, 8
 
-#define TIME
+//#define TIME
