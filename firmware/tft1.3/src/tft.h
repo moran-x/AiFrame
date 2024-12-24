@@ -4,6 +4,10 @@
 
 #include "gen.h"
 
+
+static int timeX1, timeY1;
+static uint8_t textSize1;
+
 // SCL->D5
 // SDA->D7
 // BLK->3V3
@@ -33,12 +37,18 @@ void tft_init()
     tft.setTextColor(TFT_GREEN);
 
     gen.onRender(tft_render);
+
     #if defined(TIME)
     // ========SAVE SCREEN
+
+  textSize1 = tft.width() / 7 / 6; //размер высота
+  timeX1 = (tft.width() - (textSize1 * 5 * 6)) / 3;
+  timeY1 = tft.height() - (textSize1 * 8) - 10;
+
 //screenContent = NULL;
 //screenContent = (uint16_t*) malloc ((h * w)*2);
-//screenContent = (uint16_t*) malloc( ((w - x) + 2) * ((h - y) + 2) * 2 );
-//tft.readRect(x, y, w, h, screenContent);  
+    //screenContent = (uint16_t*) malloc( textSize1*6*5 * textSize1*8 * 2 );
+    //tft.readRect(timeX1-1, timeY1-1, textSize1*6*5, textSize1*8, screenContent);  
     //tft.fillRect(timeX-1, timeY-1, textSize*6*5, textSize*8,TFT_BLACK);
     #endif
 }
